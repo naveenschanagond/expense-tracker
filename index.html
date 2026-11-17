@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Spendly — Expense Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="logo"><span class="logo-mark">S</span>spendly.</div>
+    <p class="side-label">Workspace</p>
+    <nav id="nav">
+      <a href="#overview" data-view="overview">Overview</a>
+      <a href="#transactions" data-view="transactions">Transactions</a>
+      <a href="#categories" data-view="categories">Categories</a>
+    </nav>
+    <div class="side-tip"><b>Small steps add up.</b><span>Track your spending to make smarter money decisions.</span></div>
+  </aside>
+
+  <main class="main">
+    <header class="page-head">
+      <div>
+        <p class="eyebrow">Personal finance</p>
+        <h1 id="pageTitle">Expense overview</h1>
+        <p class="sub" id="pageSub">Here's what's happening with your money.</p>
+      </div>
+      <div class="head-actions">
+        <span id="todayDate" class="date-chip"></span>
+        <button id="addBtn" class="btn-primary">+ Add expense</button>
+      </div>
+    </header>
+
+    <!-- OVERVIEW -->
+    <div class="view" id="view-overview">
+      <section class="stats">
+        <div class="card stat"><p>Total expenses</p><h2 id="statTotal"></h2><small>All recorded expenses</small></div>
+        <div class="card stat"><p>This month</p><h2 id="statMonth"></h2><small id="statMonthNote">Spending this month</small></div>
+        <div class="card stat"><p>Transactions</p><h2 id="statCount"></h2><small>Total entries</small></div>
+        <div class="card stat"><p>Average expense</p><h2 id="statAvg"></h2><small>Per transaction</small></div>
+      </section>
+
+      <section class="grid-2">
+        <div class="card">
+          <div class="card-head">
+            <div><h3>Spending breakdown</h3><p class="muted">See where your money goes</p></div>
+            <select id="period">
+              <option value="month">This month</option>
+              <option value="all">All time</option>
+            </select>
+          </div>
+          <div class="donut-wrap"><div id="donut"></div><ul id="legend" class="legend"></ul></div>
+        </div>
+        <div class="card">
+          <h3>Quick insights</h3><p class="muted">A snapshot of your spending</p>
+          <div id="insights"></div>
+        </div>
+      </section>
+    </div>
+
+    <!-- TRANSACTIONS (also shown on overview) -->
+    <section class="card view" id="view-transactions">
+      <div class="card-head">
+        <div><h3>Recent transactions</h3><p class="muted">Manage and keep track of your expenses</p></div>
+        <button id="exportBtn" class="link-btn">↓ Export CSV</button>
+      </div>
+      <div class="toolbar">
+        <input id="search" placeholder="Search expenses…" />
+        <select id="filterCat"></select>
+        <select id="sortBy">
+          <option value="newest">Newest first</option>
+          <option value="oldest">Oldest first</option>
+          <option value="high">Highest amount</option>
+          <option value="low">Lowest amount</option>
+        </select>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Description</th><th>Category</th><th>Date</th><th class="num">Amount</th><th></th></tr></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+      <p id="emptyMsg" class="empty" hidden></p>
+    </section>
+
+    <!-- CATEGORIES -->
+    <section class="card view" id="view-categories">
+      <h3>Manage categories</h3>
+      <p class="muted">Choose a category when recording an expense</p>
+      <form id="catForm" class="cat-form">
+        <input id="catName" placeholder="New category name" maxlength="20" required />
+        <input id="catColor" type="color" value="#6c47ff" aria-label="Category colour" />
+        <button class="btn-primary" type="submit">Add category</button>
+      </form>
+      <ul id="catList" class="cat-list"></ul>
+    </section>
+  </main>
+</div>
+
+<dialog id="modal">
+  <form id="expenseForm" method="dialog">
+    <h3 id="modalTitle">Add expense</h3>
+    <label>Description<input id="fDesc" required maxlength="60" /></label>
+    <label>Amount (₹)<input id="fAmount" type="number" step="0.01" min="0.01" required /></label>
+    <label>Category<select id="fCat"></select></label>
+    <label>Date<input id="fDate" type="date" required /></label>
+    <div class="modal-actions">
+      <button type="button" id="cancelBtn" class="btn-ghost">Cancel</button>
+      <button type="submit" class="btn-primary">Save expense</button>
+    </div>
+  </form>
+</dialog>
+<div id="toast" class="toast" role="status"></div>
+<script src="app.js"></script>
+</body>
+</html>
